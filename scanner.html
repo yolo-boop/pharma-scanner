@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Verifier - Scan QR Code</title>
+    <link rel="stylesheet" href="scanner.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Medicine Verification</h1>
+        <p class="subtitle">Scan QR code to verify authenticity</p>
+
+        <!-- Scanner Section -->
+        <div id="scannerSection" class="scanner-section">
+            <div class="video-container">
+                <video id="video" autoplay playsinline></video>
+                <div class="scan-line"></div>
+            </div>
+            
+            <div class="controls">
+                <button id="startButton" onclick="startScanner()">📷 Start Camera</button>
+                <button id="stopButton" onclick="stopScanner()" class="hidden">⏹️ Stop Camera</button>
+            </div>
+
+            <p class="hint">Point your camera at the QR code on medicine packaging</p>
+
+            <!-- Manual Input Option -->
+            <div class="manual-input">
+                <p>Or enter Blockchain ID manually:</p>
+                <input type="text" id="manualId" placeholder="0x7a8f9b2c...">
+                <button onclick="verifyManual()">Verify</button>
+            </div>
+        </div>
+
+        <!-- Loading Section -->
+        <div id="loadingSection" class="loading-section hidden">
+            <div class="spinner"></div>
+            <p>Verifying on blockchain...</p>
+        </div>
+
+        <!-- Result Section - Authentic -->
+        <div id="authenticSection" class="result-section authentic hidden">
+            <div class="result-icon">✅</div>
+            <h2>AUTHENTIC MEDICINE</h2>
+            <p class="verified-text">Verified on Blockchain</p>
+
+            <div class="medicine-details">
+                <div class="detail-row">
+                    <span class="label">Medicine Name:</span>
+                    <span class="value" id="medicineName">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Batch Number:</span>
+                    <span class="value" id="batchNumber">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Manufacturer:</span>
+                    <span class="value" id="manufacturer">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Manufacturing Date:</span>
+                    <span class="value" id="mfgDate">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Expiry Date:</span>
+                    <span class="value" id="expiryDate">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Blockchain ID:</span>
+                    <span class="value mono" id="blockchainId">-</span>
+                </div>
+            </div>
+
+            <button onclick="scanAgain()" class="btn-secondary">Scan Another Medicine</button>
+        </div>
+
+        <!-- Result Section - Fake/Not Found -->
+        <div id="fakeSection" class="result-section fake hidden">
+            <div class="result-icon">❌</div>
+            <h2>MEDICINE NOT VERIFIED</h2>
+            <p class="warning-text">This medicine is not registered on blockchain</p>
+            
+            <div class="warning-box">
+                <p><strong>⚠️ Warning:</strong></p>
+                <p>This could be a counterfeit product. Do not consume this medicine.</p>
+                <p>Report to nearest pharmacy or health authority.</p>
+            </div>
+
+            <button onclick="scanAgain()" class="btn-secondary">Scan Another Medicine</button>
+        </div>
+
+        <!-- Error Section -->
+        <div id="errorSection" class="error-section hidden">
+            <h3>⚠️ Error</h3>
+            <p id="errorMessage">Something went wrong</p>
+            <button onclick="scanAgain()" class="btn-secondary">Try Again</button>
+        </div>
+    </div>
+
+    <!-- Hidden canvas for QR processing -->
+    <canvas id="canvas" style="display: none;"></canvas>
+
+    <!-- jsQR Library from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+    
+    <!-- Your JavaScript -->
+    <script src="scanner.js"></script>
+</body>
+</html>
